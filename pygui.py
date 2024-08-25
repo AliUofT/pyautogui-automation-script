@@ -4,13 +4,13 @@ import random
 import string
 import numpy as np
 import math
-
+import cv2
 # makes mistakes as it types
 def type_code_naturally(code, speed=0.01):
     for char in code:
 
         # Randomly make a typo, correct it, and continue only if the char is a letter
-        if char in string.ascii_letters and random.random() < 0.15:
+        if char in string.ascii_letters and random.random() < 0.05:
             typo_char = random.choice(string.ascii_letters)  # Choose a random letter to simulate a typo
             pyautogui.typewrite(typo_char, interval=random.uniform(speed * 0.5, speed * 2))  # Type the random letter
             pyautogui.press('backspace')  # Press backspace to correct the typo
@@ -72,6 +72,34 @@ def advancedMoveTo(lstImages, confidence=0.8):
     print("None of the images were found.")
     return False  # Return False if no image was found
 
+# runs in the background, till it finds the image it is looking for.
+def background_image_finder(image_path, confidence = .3):
+    """
+    returns true if the image is found.    
+    """
+    n = 0
+
+    while n<100:
+        try:
+            res = pyautogui.locateCenterOnScreen(image_path, confidence=confidence)
+            if res:
+                print(f"Image found at: {res}")
+                return True  # Exit the function once an image is found
+        except pyautogui.ImageNotFoundException:
+            time.sleep(5)
+            n +=1
+            print(f"Image could not be found: {image_path}")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
+def activate_env(env_name):
+    pyautogui.typewrite(env_name, interval= .5)  
+
+
+
+
+
+    
 
 
 

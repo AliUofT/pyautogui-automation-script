@@ -28,60 +28,52 @@ def convert_code_to_escaped_string(code):
             
     return escaped_string
 
-
-# file = "new_file_select.png"
-file = "image.png"
-res = pyautogui.locateCenterOnScreen(file, confidence=.5)
-if advancedMoveTo([file]):
-    # this is where we add the code
-    code = '''
-    def binary_search(arr, target):
-        """Performs binary search on a sorted array to find the target value."""
-        left, right = 0, len(arr) - 1
-        while left <= right:
-            mid = left + (right - left) // 2
-            mid_value = arr[mid]
-            
-            if mid_value == target:
-                return mid
-            elif mid_value < target:
-                left = mid + 1
-            else:
-                right = mid - 1
-                
-        return -1
-
-    # Example usage:
-    if __name__ == "__main__":
-        arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-        target = 7
-        result = binary_search(arr, target)
+def start_typing(code):
+    # file = "new_file_select.png"
+    file = "image.png"
+    # res = pyautogui.locateCenterOnScreen(file, confidence=.5)
+    if advancedMoveTo([file]):
+        # this is where we add the code
+        code = code
         
-        if result != -1:
-            print(f"Element {target} found at index {result}.")
-        else:
-            print(f"Element {target} not found in the array.")
-            '''
-    
 
 
-    recorder = ScreenRecorder("output_with_cursor_follow.avi", fps=30, zoom_factor=2, follow_duration=0.1)
-    print("Starting recording...")
-    recorder.start_recording()
+        recorder = ScreenRecorder("output_with_cursor_follow.avi", fps=30, zoom_factor=2, follow_duration=0.1)
+        print("Starting recording...")
+        recorder.start_recording()
 
-    pyautogui.typewrite(convert_code_to_escaped_string(code), interval = .1)
+        pyautogui.typewrite(convert_code_to_escaped_string(code), interval = .1)
+
+        # Stop recording
+        print("Stopping recording...")
+        recorder.stop_recording()
+        print("Recording saved to output.avi")
+
+
+# TEMPORARY:
+def load_code_from_file(file_path):
+    try:
+        with open(file_path, 'r') as file:
+            code = file.read()
+            return code
+    except FileNotFoundError:
+        print(f"The file {file_path} was not found.")
+        return None
+
+# open_vscode()
+# maximize_vscode()
+# create_project_folder(folder_name)
+# create_new_file(file_name)
+# 
 
 
 
-    circle(res.x, res.y)
-    circle(res.x, res.y)
-    circle(res.x, res.y)
-    circle(res.x, res.y)
 
-    # Stop recording
-    print("Stopping recording...")
-    recorder.stop_recording()
-    print("Recording saved to output.avi")
+code = load_code_from_file("binary search_code.txt")
+print(code)
+
+# a method, that runs in the background, and everytime a specific thing shows up, it opens a command prompt or anaconda prompt, 
+# and is able to run the code there
 
 
 

@@ -51,7 +51,8 @@ def maximize_vscode():
     maximizes the vs_code window
     """
     # Simulate pressing just F11 to enter full screen
-    pyautogui.click(pyautogui.locateCenterOnScreen("vs_pics/maximize.png"), duration = .4)
+    # pyautogui.click(pyautogui.locateCenterOnScreen("vs_pics/maximize.png"), duration = .4)
+    pyautogui.hotkey('f11')
     time.sleep(2)  # Wait for the action to complete
 
 def create_project_folder(folder_name):
@@ -68,7 +69,7 @@ def create_project_folder(folder_name):
         time.sleep(1)
         pyautogui.press('enter')
         time.sleep(3)
-        pyautogui.click(pyautogui.locateCenterOnScreen("vs_pics/folder_window.png", confidence=.5), duration=.5)
+        # pyautogui.click(pyautogui.locateCenterOnScreen("vs_pics/folder_window.png", confidence=.5), duration=.5)
         time.sleep(1)
         pyautogui.hotkey('ctrl', 'a')
         pyautogui.press('backspace')
@@ -77,7 +78,12 @@ def create_project_folder(folder_name):
         pyautogui.press('enter')
 
     else:
-        pyautogui.click(pyautogui.locateCenterOnScreen("vs_pics/select_folder.png", confidence=.6), duration=.5)
+        pyautogui.press('tab')
+        pyautogui.press('tab')
+        pyautogui.press('enter')
+        
+        # pyautogui.click(pyautogui.locateCenterOnScreen("vs_pics/select_folder.png", confidence=.6), duration=.5)
+
     time.sleep(1)
 
 def create_new_file(file_name):
@@ -86,7 +92,7 @@ def create_new_file(file_name):
     pyautogui.typewrite('new file', interval=0.1)
     pyautogui.press('enter', interval=.1)
     time.sleep(1)
-    pyautogui.typewrite(file_name, interval=0.1)
+    pyautogui.typewrite(f"{file_name}.py", interval=0.1)
     time.sleep(1)
     pyautogui.press('enter', interval=.1)
     time.sleep(1)
@@ -96,8 +102,23 @@ def create_new_file(file_name):
 def test_typing():
     pyautogui.typewrite('Hello, World!', interval=0.1)
 
-def new_terminal():
-    pyautogui.hotkey('ctrl', 'shift', 'p')
+def new_WSL_terminal():
+    pyautogui.hotkey('ctrl', 'alt', 'w')
     time.sleep(1)
     pyautogui.typewrite('New Terminal', interval=0.1)
     pyautogui.press('enter')
+
+def new_anaconda_terminal():
+    pyautogui.hotkey('ctrl', 'alt', 'a')
+    time.sleep(1)
+    pyautogui.typewrite('New Terminal', interval=0.1)
+    pyautogui.press('enter')
+
+def activate_env(name):
+    pyautogui.typewrite(f"conda activate {name}", interval=0.1)
+
+
+
+# runs in the background, gets a cue when the script finishes, 
+# then, starts by opening the command prompt using a shortcut or smth, 
+# then we start the 

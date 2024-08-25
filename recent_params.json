@@ -1,0 +1,21 @@
+{
+    "concept": "Binary Search",
+    "content": "In this video, we'll cover the basics of Python programming, including variables, loops, and functions.",
+    "summary": "This video provides a brief overview of Python programming fundamentals.",
+    "intro_audio_file": "C:/Videos/Python_Programming_Basics_intro.wav",
+    "intro_audio_file_new": "C:/Videos/Python_Programming_Basics_intro_new.wav",
+    "intro_subtitle_file": "C:/Videos/Python_Programming_Basics_intro.ass",
+    "intro_output_file": "C:/Videos/Python_Programming_Basics_intro.mp4",
+    "script_wtimes": {
+        "[00:00:01]": "Welcome to our Python tutorial!",
+        "[00:00:05]": "Let's start with variables.",
+        "[00:00:10]": "Now, let's talk about loops."
+    },
+    "full_audio": "dd",
+    "sampling_rate": 24000,
+    "audio_file": "C:/Videos/Python_Programming_Basics.wav",
+    "audio_file_new": "C:/Videos/Python_Programming_Basics_new.wav",
+    "subtitle_file": "C:/Videos/Python_Programming_Basics.ass",
+    "output_file": "C:/Videos/Python_Programming_Basics.mp4",
+    "code": "binary search_code.txt"
+}
