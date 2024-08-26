@@ -88,13 +88,15 @@ print('''
       {{  } -:- { } }
       {_{ }`===`{  _}
      ((((\)     (/))))''')
+import time
 # first, we wait for caesor to appear
 if background_image_finder('monke2.png'):
     open_vscode()
     maximize_vscode()
     params = open_json_file("recent_params.json")
-    
+    time.sleep(2)
     create_project_folder(str(params["concept"]))
+    time.sleep(2)
     create_new_file(params["concept"])
     code_path = params["code"]
     code = load_from_file(code_path)
