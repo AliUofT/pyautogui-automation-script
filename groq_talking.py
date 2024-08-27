@@ -85,10 +85,76 @@ def highlight_code_lines(text_lines, highlight_mapping):
 
     # Iterate through the text lines and the corresponding highlight ranges
     for text_line, code_lines in zip(text_lines, highlight_mapping):
-        highlight_dict[text_line] = code_lines
+        highlight_dict[text_line] = (code_lines, 0.00)
 
     return highlight_dict
 
+import re
+def set_highlight_times(srt_file, highlight_dict):
+    """
+    Sets the beginning times for the highlights in the SRT file based on the provided highlight dictionary.
+
+    Parameters:
+    srt_file (str): The path to the SRT file.
+    highlight_dict (dict): A dictionary with text as keys and (lines to highlight, initial time) tuples as values.
+
+    Returns:
+    dict: Updated highlight_dict with the starting times for highlights.
+    """
+    
+    # Read the SRT file and parse its contents
+    with open(srt_file, 'r', encoding='utf-8') as file:
+        srt_lines = file.readlines()
+
+    # Regex pattern to extract time and text from SRT file
+    time_pattern = re.compile(r'(\d{2}:\d{2}:\d{2},\d{3}) --> (\d{2}:\d{2}:\d{2},\d{3})')
+    srt_entries = []
+
+    current_time = None
+    current_text = ""
+
+    for line in srt_lines:
+        if time_pattern.match(line):
+            # When a new time block starts, save the previous block if it exists
+            if current_time and current_text:
+                srt_entries.append((current_text.strip(), current_time))
+                current_text = ""  # Reset text for the next block
+
+            # Capture the start time
+            current_time = time_pattern.match(line).group(1)
+        elif line.strip() and not line.isdigit():  # Only add text lines, not empty or index lines
+            current_text += " " + line.strip()
+        elif not line.strip() and current_time and current_text:
+            # When we hit a blank line after text, we save the current block
+            srt_entries.append((current_text.strip(), current_time))
+            current_text = ""
+            current_time = None
+
+    # Check for the last entry
+    if current_time and current_text:
+        srt_entries.append((current_text.strip(), current_time))
+
+    # Helper function to convert SRT time format to seconds
+    def srt_time_to_seconds(srt_time):
+        hours, minutes, seconds_millis = srt_time.split(':')
+        seconds, millis = seconds_millis.split(',')
+        return int(hours) * 3600 + int(minutes) * 60 + int(seconds) + int(millis) / 1000
+
+    # Update highlight_dict with start times for highlights
+    for key in highlight_dict.keys():
+        first_two_words = " ".join(key.split()[:2])  # Get the first two words of the script text
+
+        for srt_text, srt_time in srt_entries:
+            # Match if the SRT text contains the first two words of the key
+            if first_two_words in srt_text:
+                highlight_time = srt_time_to_seconds(srt_time)
+                highlight_dict[key] = (highlight_dict[key][0], highlight_time)
+                break
+
+    return highlight_dict
+# write a function that:
+# given the srt file and highlight dict, 
+# it sets the begening times for the highlights of each line. So 
 
 
 load_dotenv(".env")
@@ -101,7 +167,6 @@ params = open_json_file("recent_params.json")
 code_path = params["code"]
 code = load_from_file(code_path)
 code = add_line_numbers(code)
-
 
 
 
@@ -247,13 +312,7 @@ if user_text != '0':
 
 
     
-# print("this was the first ones response:")
-# print(chat_completion.choices[0].message.content)
-    
-# print("##############################################################")
-# print("Second Revised response:")
 full_summary = chat_completion2.choices[0].message.content
-# print(full_summary)
 
 highlighting_lines = full_summary.splitlines()[-1]
 import ast # to convert python literals into actual python types like list strings into actual strings.
@@ -267,10 +326,9 @@ print(informal_summary.choices[0].message.content)
 
 overview = informal_summary.choices[0].message.content
 
-# highlight_dict = highlight_code_lines(overview, highlighting_lines)
+highlight_dict = highlight_code_lines(overview, highlighting_lines)
 # print(highlight_dict)
 
-# print("#####################################")
-# print("\n\n")
-# print(f"This is the code: ")
-# print(code)
+highlight_dict = set_highlight_times('depth_first_search_conclusion.srt', highlight_dict= highlight_dict)
+
+print(highlight_dict)
