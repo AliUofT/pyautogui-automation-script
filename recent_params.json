@@ -1,5 +1,5 @@
 {
-    "concept": "Binary Search",
+    "concept": "depth first search",
     "content": "In this video, we'll cover the basics of Python programming, including variables, loops, and functions.",
     "summary": "This video provides a brief overview of Python programming fundamentals.",
     "intro_audio_file": "C:/Videos/Python_Programming_Basics_intro.wav",
@@ -17,5 +17,5 @@
     "audio_file_new": "C:/Videos/Python_Programming_Basics_new.wav",
     "subtitle_file": "C:/Videos/Python_Programming_Basics.ass",
     "output_file": "C:/Videos/Python_Programming_Basics.mp4",
-    "code": "binary search_code.txt"
+    "code": "depth first search_code.txt"
 }

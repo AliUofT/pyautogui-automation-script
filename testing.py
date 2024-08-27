@@ -103,8 +103,6 @@ if background_image_finder('monke2.png'):
     pyautogui.typewrite(convert_code_to_escaped_string(code), interval = .1)
     print("DONE")
 
-    
-    
 
 
 
