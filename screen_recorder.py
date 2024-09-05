@@ -15,14 +15,6 @@ class ScreenRecorder:
         self.out = None
         self.thread = None
 
-    def start_recording(self):
-        # Define the codec and create VideoWriter object
-        fourcc = cv2.VideoWriter_fourcc(*"XVID")
-        self.out = cv2.VideoWriter(self.output_file, fourcc, self.fps, (self.screen_size.width, self.screen_size.height))
-        self.recording = True
-        self.thread = threading.Thread(target=self._record)
-        self.thread.start()
-
     def _record(self):
         while self.recording:
             # Get the current screenshot
@@ -53,10 +45,14 @@ class ScreenRecorder:
         zoomed_frame = cv2.resize(cropped_frame, (w, h), interpolation=cv2.INTER_LINEAR)
         return zoomed_frame
 
+    def start_recording(self):
+        print("Starting recording")
+        pyautogui.hotkey('ctrl', 'alt', '1', interval=0.5)
+
     def stop_recording(self):
-        self.recording = False
-        if self.thread:
-            self.thread.join()
-        if self.out:
-            self.out.release()
+        print("Stopping recording")
+        pyautogui.hotkey('ctrl', 'alt', '2', interval=0.5)
+
+
+
 
